@@ -1,0 +1,66 @@
+.featuresContainer {
+    /* 2x2 grid */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-in-out;
+}
+
+.feature:active {
+    transform: translateY(2px);
+
+}
+
+.featureName {
+    font-size: 1.7rem;
+    font-weight: 400;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.feature1 {
+    background-color: #f8d7da;
+}
+
+.feature2 {
+    background-color: #cce5ff;
+}
+
+.feature3 {
+    background-color: #d4edda;
+}
+
+.feature4 {
+    background-color: #fff3cd;
+}
+
+/* Make animation on these feature cards when app is started */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.feature {
+    animation: fadeIn 1s ease-in-out;
+}
