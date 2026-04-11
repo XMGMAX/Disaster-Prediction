@@ -1,70 +1,171 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🌍 Disaster Predictor
+### *A Multi-Hazard Intelligence Interface for Early Risk Awareness*
 
-## Available Scripts
+<p>
+  <img src="https://img.shields.io/badge/Frontend-React-1f6feb?style=for-the-badge&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Backend-Flask-111827?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" />
+  <img src="https://img.shields.io/badge/ML-Joblib%20Models-7c3aed?style=for-the-badge" alt="ML Models" />
+  <img src="https://img.shields.io/badge/Status-Prototype-f59e0b?style=for-the-badge" alt="Status" />
+</p>
 
-In the project directory, you can run:
+<p>
+  A disaster forecasting dashboard prototype that brings together <b>earthquake</b>, <b>flood</b>, <b>forest fire</b>, and <b>tsunami</b> risk prediction workflows in one experience.
+</p>
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✨ Why this project exists
+Natural hazard risk decisions often happen under pressure. This project explores a single interface where different disaster-type inputs can be captured quickly and sent to ML models for a prediction response.
 
-### `npm test`
+### 🎯 Current experience
+- **Landing page** with disaster-type navigation cards.
+- Dedicated screens for:
+  - Earthquake prediction
+  - Forest Fire prediction
+  - Tsunami prediction
+  - Flood prediction (component exists, route wiring is incomplete in app routing)
+- Flask API endpoints for all four prediction services.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🧠 System Architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```mermaid
+flowchart LR
+  U[User] --> FE[React Frontend]
+  FE -->|POST JSON| API[Flask API]
+  API --> EQ[Earthquake Model]
+  API --> FL[Flood Model]
+  API --> FF[Forest Fire Model]
+  API --> TS[Tsunami Model]
+  EQ --> API
+  FL --> API
+  FF --> API
+  TS --> API
+  API -->|Prediction JSON| FE
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧩 Tech Stack
 
-### `npm run eject`
+| Layer | Technology | Role |
+|---|---|---|
+| Frontend | React + React Router | Multi-page UI and interaction flows |
+| Frontend Maps | react-leaflet (imported in earthquake page) | Geospatial UI foundation |
+| Backend | Flask | Lightweight prediction API server |
+| ML Runtime | joblib + pandas | Model loading and request data shaping |
+| Models | `.joblib` / `.pkl` assets | Hazard-specific prediction inference |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.XXXX
+## 📁 Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```text
+Disaster-Prediction/
+├── public/
+├── src/
+│   ├── api/
+│   │   ├── main.py
+│   │   └── models/
+│   ├── App.js
+│   ├── Front.js
+│   ├── Features.js
+│   ├── EarthquakePrediction.js
+│   ├── ForestFirePrediction.js
+│   ├── TsunamiPrediction.js
+│   └── FloodPrediction.js
+├── main005.py
+├── requirements.txt
+└── README.md
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🚀 Quick Start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 1) Clone & install frontend dependencies
+```bash
+git clone <your-repo-url>
+cd Disaster-Prediction
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 2) Run the React frontend
+```bash
+npm start
+```
+Frontend runs at: **http://localhost:3000**
 
-### Code Splitting
+## 3) Set up Python backend
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python src/api/main.py
+```
+Backend runs at: **http://127.0.0.1:5000**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🔌 API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Base URL: `http://127.0.0.1:5000`
 
-### Making a Progressive Web App
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/earthquake` | POST | Earthquake risk prediction |
+| `/flood` | POST | Flood risk prediction |
+| `/forestfire` | POST | Forest fire risk prediction |
+| `/tsunami` | POST | Tsunami risk prediction |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Example request
+```bash
+curl -X POST http://127.0.0.1:5000/earthquake \
+  -H "Content-Type: application/json" \
+  -d '[{"latitude": 12.1, "longitude": 77.5, "depth": 8.3, "date": "2026-04-11"}]'
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🛠️ Improvement Roadmap
 
-### Deployment
+- [ ] Connect frontend form submit actions to Flask endpoints.
+- [ ] Add client-side + server-side validation.
+- [ ] Wire flood route in `App.js`.
+- [ ] Add unified prediction result cards with confidence details.
+- [ ] Add model metadata/version display.
+- [ ] Add test coverage for API routes and form workflows.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## ⚠️ Important Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- This project is currently a **prototype** and should not be used as a real emergency warning system.
+- Prediction quality depends entirely on model quality, features used, and proper validation.
+- Some frontend flows are scaffolds and need API integration.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
+
+---
+
+## 📜 License
+
+Add your license details here (MIT/Apache-2.0/etc.).
+
+---
+
+<div align="center">
+Built with curiosity, code, and climate resilience in mind. 🌊🔥🌲🌍
+</div>
